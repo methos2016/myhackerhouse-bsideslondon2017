@@ -1,0 +1,7 @@
+gcc -m32 -c -Wall -Werror -fpic foo.c -fno-stack-protector -z execstack 
+gcc -m32 -shared -o libfoo.so foo.o -fno-stack-protector -z execstack 
+gcc -m32 -L/tmp/bsides/mylib -Wall -o test main.c -lfoo -fno-stack-protector -z execstack 
+
+cp libfoo.so ../
+openssl enc -aes-128-cbc -nosalt -in libfoo.so -K 57616E6E614372793F -iv 00 -out ../revshell.bin
+
